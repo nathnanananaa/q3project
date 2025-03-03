@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Manila Train Fare Calculatoringer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #b9cdea;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #6290c1;
+        }
+        .navbar-brand img {
+            width: 40px;
+            height: auto;
+        }
+        .hero-section {
+            background-color: #6290c1;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+        }
+        .fare-section {
+            padding: 30px;
+        }
+        .fare-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #6290c1;
+        }
+        .map-section {
+            margin-top: 40px;
+            text-align: center;
+            padding: 10px;
+            background-color: #fff;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #6290c1;
+            border: none;
+            width: 200px;
+            max-width: 200px;
+            margin: 0 auto;
+            border-radius: 200px;
+            display: block;
+        }
+        .btn-primary:hover {
+            background-color: rgb(100, 166, 227);
+        }
+        .fare-result {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-select {
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        .modal-dialog {
+            max-width: 90%;
+            max-height: 80%;
+            margin: 10% auto;
+        }
+        .modal-content {
+            background-color: #fff;
+            border: none;
+            border-radius: 8px;
+        }
+        .modal-body {
+            padding: 0;
+        }
+        .modal-body img {
+            width: 100%;
+            height: auto;
+        }
+        .form-label {
+            text-align: center;
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .form-select {
+            margin: 0 auto;
+            display: block;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="LOGO-removebg-preview.png" alt="LOGO-removebg-preview" style="width: 100px; height: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Routes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Fare Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h1 style="font-family: monospace;">Cheapest train tickets for you!</h1>
+        <p style="font-family: monospace;">Lowest fares on the market!</p>
+    </header>
+
+    <div class="container map-section">
+        <h2>Train Routes Map</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d123582.80289405736!2d120.93825817483787!3d14.54413201474453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e3!4m5!1s0x3397b6efec15f8ed%3A0x45cb60173cdfa6fb!2sRoosevelt%20Station%2C%201039%20Epifanio%20de%20los%20Santos%20Ave%2C%20Bago%20Bantay%2C%20Quezon%20City%2C%201105%20Metro%20Manila!3m2!1d14.657604599999999!2d121.0211008!4m5!1s0x3397d033da1fd649%3A0x8f60d963b066eff8!2sAlabang%2C%20Muntinlupa%2C%20Metro%20Manila!3m2!1d14.4181972!2d121.0421102!5e0!3m2!1sen!2sph!4v1740363200562!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="LOGO-removebg-preview.png" alt="LOGO-removebg-preview">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container fare-section">
+        <h2 class="text-center">Choose Your Ticket</h2>
+        
+        <form id="fareForm">
+            <div class="mb-3">
+                <label for="fromLocation" class="form-label">From</label>
+                <select class="form-select" id="fromLocation" required>
+                    <option value="" selected disabled>Pick Departure Station</option>
+                    <option value="1">LRT-1: Roosevelt</option>
+                    <option value="2">LRT-1: Baclaran</option>
+                    <option value="3">MRT-3: North Avenue</option>
+                    <option value="4">MRT-3: Taft Avenue</option>
+                    <option value="5">PNR: Tutuban</option>
+                    <option value="6">PNR: Alabang</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="toLocation" class="form-label">To</label>
+                <select class="form-select" id="toLocation" required>
+                    <option value="" selected disabled>Pick Arrival Station</option>
+                    <option value="1">LRT-1: Roosevelt</option>
+                    <option value="2">LRT-1: Baclaran</option>
+                    <option value="3">MRT-3: North Avenue</option>
+                    <option value="4">MRT-3: Taft Avenue</option>
+                    <option value="5">PNR: Tutuban</option>
+                    <option value="6">PNR: Alabang</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Calculate Fare</button>
+        </form>
+
+        <div id="fareResult" class="text-center mt-4">
+            <p class="fare-result" id="ticketPrice"></p>
+        </div>
+
+        <div class="mb-3">
+            <label for="discountType" class="form-label">Discount Type</label>
+            <select class="form-select" id="discountType">
+                <option value="0">Regular</option>
+                <option value="1">Senior Citizen</option>
+                <option value="1">Student</option>
+                <option value="1">PWD</option>
+            </select>
+        </div>        
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById("fareForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+    
+            from = document.getElementById("fromLocation").value;
+            to = document.getElementById("toLocation").value;
+            discountType = document.getElementById("discountType").value;
+    
+            fare = (from - to) * (from - to) * 5 + 13; // normal fare + rate per station
+            discountMultiplier = [1, 0.8][(discountType > 0) * 1]; // 0.8 if discounted, if not then 1
+    
+            price = fare * discountMultiplier;
+            fromText = document.querySelector(`#fromLocation option[value="${from}"]`).textContent;
+            toText = document.querySelector(`#toLocation option[value="${to}"]`).textContent;
+    
+            document.getElementById("ticketPrice").textContent =
+                ["From ", fromText, " to ", toText, " = ₱", price.toFixed(2)].join("");
+        });
+    </script>    
+
+</body>
+</html>
